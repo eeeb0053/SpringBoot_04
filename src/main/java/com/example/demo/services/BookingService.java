@@ -10,5 +10,9 @@ import org.springframework.stereotype.Component;
 public interface BookingService {
 	public int add(BookingDTO booking);
 	public List<BookingDTO> list();
-	public int count();
+    public int count();
+    public int crawling(String url);
+    public BookingDTO getBookingById(String bookNum);
+    public int update(BookingDTO booking);
+    public int delete(BookingDTO booking);
 }

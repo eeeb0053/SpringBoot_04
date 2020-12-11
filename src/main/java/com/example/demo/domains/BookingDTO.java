@@ -7,5 +7,5 @@ import lombok.Setter;
 
 @Component @Getter @Setter
 public class BookingDTO {
-    private String bookNum, bookId, showTitle, showDate, price;
+    private String bookNum, bookId, showTitle, showDate, showLocation, showPrice;
 }

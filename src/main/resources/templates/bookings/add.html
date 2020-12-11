@@ -33,8 +33,12 @@
                 <td><input type="text" id="showDate"></td>
             </tr>
             <tr>
+                <td>장소</td>
+                <td><input type="text" id="showLocation"></td>
+            </tr>
+            <tr>
                 <td>가격</td>
-                <td><input type="text" id="price"></td>
+                <td><input type="text" id="showPrice"></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -56,7 +60,8 @@
                     bookId: $('#bookId').val(),
                     showTitle: $('#showTitle').val(),
                     showDate: $('#showDate').val(),
-                    price: $('#price').val(),
+                    showLocation: $('#showLocation').val(),
+                    showPrice: $('#showPrice').val()
                 }),
                 dataType: 'json',
                 contentType: 'application/json',

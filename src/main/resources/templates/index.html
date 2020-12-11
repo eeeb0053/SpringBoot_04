@@ -12,8 +12,13 @@
     <a href="#" id="list">결제목록</a><br>
     <a href="#" id="crawling">웹크롤링</a><br>
     <script>
-        $('#add').click(e => {location.href="move/bookings/add"})
-        $('#list').click(e => {location.href="move/bookings/list"})
+        $('#add').click(e => {location.href="/move/bookings/add"})
+        $('#list').click(e => {location.href="/move/bookings/list"})
+        $('#crawling').click(e => {
+            $.getJSON('/bookings/crawling/wmp', d => {
+                alert(`게시글 ${d.count}개 등록 완료`)
+            })
+        })
     </script>
 </body>
 </html>

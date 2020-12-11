@@ -19,20 +19,20 @@
         <thead>
             <tr>
                 <th class="text-center">결제번호</th>
-                <th class="text-center">결제ID</th>
                 <th class="text-center">전시명</th>
                 <th class="text-center">날짜</th>
                 <th class="text-center">가격</th>
             </tr>
         </thead>
         <tbody id="tb">
-            <tr></tr>
+            <tr>
+
+            </tr>
         </tbody>
     </table>
     <script>
         $('#home').click(e => {location.href="/"})
-        $.getJSON(`/bookings`, d => {
-            alert(`진입`)
+        $.getJSON('/bookings', d => {
             if(d.count != 0){
                 const list = d.list
                 let tr = ''
@@ -40,10 +40,9 @@
                 for(; i < d.count; i++){
                     tr += '<tr>'
                         + '<td class="text-center">'+list[i].bookNum+'</td>'
-                        + '<td class="text-center">'+list[i].bookId+'</td>'
                         + '<td class="text-center"><a class="showTitle" href="#" id="'+list[i].bookNum+'">'+list[i].showTitle+'</a></td>'
                         + '<td class="text-center">'+list[i].showDate+'</td>'
-                        + '<td class="text-center">'+list[i].price+'</td>'
+                        + '<td class="text-center">'+list[i].showPrice+'</td>'
                         + '</tr>'
                 }
                 $('#tb').html(tr)
@@ -51,15 +50,14 @@
                     $(this).click(e => {
                         e.preventDefault()
                         localStorage.setItem('bookNum', `${this.id}`)
-                        location.href='move/bookings/detail'
+                        location.href='/move/bookings/detail'
                     })
                 })
             }else{
                 $(".bookNum").text('조회결과 없음')
-                $(".bookID").text('조회결과 없음')
                 $(".showTitle").text('조회결과 없음')
                 $(".showDate").text('조회결과 없음')
-                $(".price").text('조회결과 없음')
+                $(".showPrice").text('조회결과 없음')
             }
         })
     </script>

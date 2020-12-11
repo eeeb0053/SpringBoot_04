@@ -4,13 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        table {border: 1px solid black}
+        table tr{border: 1px solid black}
+        table tr td{border: 1px solid black}
+        table tr th{border: 1px solid black}
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h2>결제목록</h2>
+    <h2>상세보기</h2>
     <a href="#" id="home">홈으로</a>
+    <form>
+        <table>
+            <tr>
+                <td>결제번호</td>
+                <td><span id='bookNum'></span></td>
+            </tr>
+            <tr>
+                <td>결제ID</td>
+                <td><span id='bookId'></span></td>
+            </tr>
+            <tr>
+                <td>전시명</td>
+                <td><span id='showTitle'></span></td>
+            </tr>
+            <tr>
+                <td>날짜</td>
+                <td><span id='showDate'></span></td>
+            </tr>
+            <tr>
+                <td>장소</td>
+                <td><span id='showLocation'></span></td>
+            </tr>
+            <tr>
+                <td>가격</td>
+                <td><span id='showPrice'></span></td>
+            </tr>
+            <tr id="toggle">
+                <td colspan="2">
+                </td>
+            </tr>
+        </table>
+    </form>
     <script>
         $('#home').click(e => {location.href="/"})
+        $.getJSON(`/bookings/${localStorage.getItem('bookNum')}`, d => {
+            $('#bookNum').text(d.bookNum)
+            $('#bookId').text(d.bookId)
+            $('#showTitle').text(d.showTitle)
+            $('#showDate').text(d.showDate)
+            $('#showLocation').text(d.showLocation)
+            $('#showPrice').text(d.showPrice)
+            $('#toggle').html('<button id="update-btn">수정</button><button id="delete-btn">삭제</button>')
+            $('#update-btn').click(e => {
+                $('#showTitle').html('<input id="update-title" type="text" value="'+d.showTitle+'"/>')
+                $('#showLocation').html('<input id="update-location" type="text" value="'+d.showLocation+'"/>')
+                $('#showDate').html('<input id="update-date" type="text" value="'+d.showDate+'"/>')
+                $('#showPrice').html('<input id="update-price" type="text" value="'+d.showPrice+'"/>')
+                $('#toggle').html('<button id="confirm">확인</button>')
+                $('#confirm').click(e => {
+                    e.preventDefault()
+                    $.ajax({
+                        url: '/bookings',
+                        type: 'PUT',
+                        data: JSON.stringify({
+                            bookNum: d.bookNum,
+                            bookId: d.bookId,
+                            showTitle: $('#update-title').val(),
+                            showLocation: $('#update-location').val(),
+                            showDate: $('#update-date').val(),
+                            showPrice: $('#update-price').val()
+                        }),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: d => {
+                            if(d.message === 'SUCCESS'){
+                                location.href = '/move/bookings/detail'
+                            }else{
+                                alert(`수정 실패`)
+                            }
+                        },
+                        error: e => {alert(`수정 실패: ${e}`)}
+                    })
+                })
+            })
+            $('#delete-btn').click(e => {
+                e.preventDefault()
+                $.ajax({
+                    url: '/bookings',
+                    type: 'DELETE',
+                    data: JSON.stringify({
+                        bookNum: d.bookNum
+                    }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: d => {
+                        if(d.message === 'SUCCESS'){
+                            location.href='/move/bookings/list'
+                        }else{
+                            alert('삭제 실패')
+                        }
+                    },
+                    error: e => { alert(`삭제 실패: ${e}`)}
+                })
+            })
+        })
     </script>
 </body>
 </html>

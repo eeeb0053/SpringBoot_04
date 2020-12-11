@@ -3,14 +3,28 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repositories.BookingRepository">
     <insert id="insert" parameterType="com.example.demo.domains.BookingDTO">
-        insert into bookings (bookNum, bookId, showTitle, showDate, price)
-        values (#{bookNum}, #{bookId}, #{showTitle}, #{showDate}, #{price})
+        insert into bookings (bookNum, bookId, showTitle, showDate, showLocation, showPrice)
+        values (#{bookNum}, #{bookId}, #{showTitle}, #{showDate}, #{showLocation}, #{showPrice})
     </insert>
     <select id="selectAll" resultType="com.example.demo.domains.BookingDTO">
-        select book_num bookNum, book_id bookId, show_title showTitle, show_date showDate, price
+        select bookNum, bookId, showTitle, showDate, showLocation, showPrice
         from bookings
     </select>
     <select id="count" resultType="int">
         select count(*) from bookings
     </select>
+    <select id="selectById" resultType="com.example.demo.domains.BookingDTO"
+                            parameterType="string">
+        select bookNum, bookId, showTitle, showDate, showLocation, showPrice
+        from bookings
+        where bookNum like #{value}
+    </select>
+    <update id="update" parameterType="com.example.demo.domains.BookingDTO">
+        update bookings set showTitle = #{showTitle}, showDate = #{showDate},
+                            showLocation = #{showLocation}, showPrice = #{showPrice}
+        where bookNum like #{bookNum}
+    </update>
+    <delete id="delete" parameterType="com.example.demo.domains.BookingDTO">
+        delete from bookings where bookNum like #{bookNum}
+    </delete>
 </mapper>

@@ -10,4 +10,7 @@ public interface BookingRepository {
 	public int insert(BookingDTO booking);
 	public List<BookingDTO> selectAll();
 	public int count();
+    public BookingDTO selectById(String bookNum);
+    public int update(BookingDTO booking);
+    public int delete(BookingDTO booking);
 }
