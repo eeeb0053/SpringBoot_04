@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {border: 1px solid black}
+        table tr{border: 1px solid black}
+        table tr td{border: 1px solid black}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h2>결제내역 추가</h2>
+    <a href="#" id="home">홈으로</a>
+    <form>
+        <table>
+            <tr>
+                <td>결제번호</td>
+                <td><input type="text" id="bookNum"></td>
+            </tr>
+            <tr>
+                <td>결제ID</td>
+                <td><input type="text" id="bookId"></td>
+            </tr>
+            <tr>
+                <td>전시명</td>
+                <td><input type="text" id="showTitle"></td>
+            </tr>
+            <tr>
+                <td>날짜</td>
+                <td><input type="text" id="showDate"></td>
+            </tr>
+            <tr>
+                <td>가격</td>
+                <td><input type="text" id="price"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="add-btn">추가</button>
+                    <button id="cancle-btn">취소</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        $('#home').click(e => {location.href="/"})
+        $('#add-btn').click(e => {
+            e.preventDefault()
+            $.ajax({
+                url: '/bookings',
+                type: 'POST',
+                data: JSON.stringify({
+                    bookNum: $('#bookNum').val(),
+                    bookId: $('#bookId').val(),
+                    showTitle: $('#showTitle').val(),
+                    showDate: $('#showDate').val(),
+                    price: $('#price').val(),
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: d => {
+                    if(d.message === 'SUCCESS'){
+                        alert(`추가되었습니다.`)
+                        location.href="/move/bookings/list"
+                    }else{
+                        alert(`추가 실패`)
+                        location.href="/move/bookings/add"
+                    }
+                },
+                error: e => { alert(`추가 실패: ${e}`)}
+            })
+        })
+        $('#cancle-btn').click(e => {location.href="/move/bookings/add"})
+    </script>
+</body>
+</html>

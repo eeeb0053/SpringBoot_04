@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {border: 1px solid black}
+        table tr{border: 1px solid black}
+        table tr td{border: 1px solid black}
+        table tr th{border: 1px solid black}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h2>결제목록</h2>
+    <a href="#" id="home">홈으로</a>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">결제번호</th>
+                <th class="text-center">결제ID</th>
+                <th class="text-center">전시명</th>
+                <th class="text-center">날짜</th>
+                <th class="text-center">가격</th>
+            </tr>
+        </thead>
+        <tbody id="tb">
+            <tr></tr>
+        </tbody>
+    </table>
+    <script>
+        $('#home').click(e => {location.href="/"})
+        $.getJSON(`/bookings`, d => {
+            alert(`진입`)
+            if(d.count != 0){
+                const list = d.list
+                let tr = ''
+                let i = 0
+                for(; i < d.count; i++){
+                    tr += '<tr>'
+                        + '<td class="text-center">'+list[i].bookNum+'</td>'
+                        + '<td class="text-center">'+list[i].bookId+'</td>'
+                        + '<td class="text-center"><a class="showTitle" href="#" id="'+list[i].bookNum+'">'+list[i].showTitle+'</a></td>'
+                        + '<td class="text-center">'+list[i].showDate+'</td>'
+                        + '<td class="text-center">'+list[i].price+'</td>'
+                        + '</tr>'
+                }
+                $('#tb').html(tr)
+                $('.showTitle').each(function(i){
+                    $(this).click(e => {
+                        e.preventDefault()
+                        localStorage.setItem('bookNum', `${this.id}`)
+                        location.href='move/bookings/detail'
+                    })
+                })
+            }else{
+                $(".bookNum").text('조회결과 없음')
+                $(".bookID").text('조회결과 없음')
+                $(".showTitle").text('조회결과 없음')
+                $(".showDate").text('조회결과 없음')
+                $(".price").text('조회결과 없음')
+            }
+        })
+    </script>
+</body>
+</html>

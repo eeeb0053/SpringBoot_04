@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repositories.BookingRepository">
+    <insert id="insert" parameterType="com.example.demo.domains.BookingDTO">
+        insert into bookings (bookNum, bookId, showTitle, showDate, price)
+        values (#{bookNum}, #{bookId}, #{showTitle}, #{showDate}, #{price})
+    </insert>
+    <select id="selectAll" resultType="com.example.demo.domains.BookingDTO">
+        select book_num bookNum, book_id bookId, show_title showTitle, show_date showDate, price
+        from bookings
+    </select>
+    <select id="count" resultType="int">
+        select count(*) from bookings
+    </select>
+</mapper>
